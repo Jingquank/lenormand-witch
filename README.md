@@ -376,7 +376,7 @@ The zip on the [Releases](https://github.com/Jingquank/lenormand-witch/releases)
 
 The download link at the top of this README always points to the newest release, so it serves the new zip as soon as the workflow finishes.
 
-To rebuild the zip of an existing release, open **Actions** → **Release zip** → **Run workflow** and enter its tag. The workflow replaces the old file.
+You can also run the workflow by hand: push a tag, open **Actions** → **Release zip** → **Run workflow** and enter the tag. If the tag has a release, the workflow replaces its zip; if not, it creates the release with generated notes and attaches the zip.
 
 To build the zip by hand, run this from the folder above the repository:
 

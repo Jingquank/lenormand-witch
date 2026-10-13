@@ -1,5 +1,6 @@
 # Builds lenormand-witch.zip and attaches it to a GitHub Release.
-# Runs when a release is published, or by hand (Actions → Release zip → Run workflow) for an existing tag.
+# Runs when a release is published, or by hand (Actions → Release zip → Run workflow) for a pushed tag.
+# A manual run creates the release for that tag when none exists yet.
 name: Release zip
 
 on:
@@ -8,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Release tag to attach the zip to (for example v1.1.0)
+        description: Tag to build the zip for (for example v1.1.0); its release is created if missing
         required: true
 
 permissions:
@@ -43,4 +44,10 @@ jobs:
       - name: Attach the zip to the release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$TAG" lenormand-witch.zip --clobber --repo "$GITHUB_REPOSITORY"
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release upload "$TAG" lenormand-witch.zip --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" lenormand-witch.zip --repo "$GITHUB_REPOSITORY" \
+              --title "$TAG" --generate-notes --verify-tag
+          fi
