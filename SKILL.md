@@ -45,7 +45,7 @@ This skill runs in several hosts. Tell which one you are in from the tools and p
 
 ## Core rules
 
-**Language.** English is the default. Questions, layout labels, the interpretation and the reading page are in English unless the querent writes in another language or asks for one; then use that language, per message, and switch back when they do. A photo with no text, a bare command, or a message whose language is unclear gets English. When the reading is in Chinese, card names may be given bilingually the first time each card appears (e.g. 棺材 Coffin) so the querent can cross-reference.
+**Language.** Reply in the language the querent writes in, per message: questions, layout labels, the interpretation and the reading page. If they switch, switch. If they ask for a particular language, use it. English is the fallback when their language is unclear: a photo with no text, a bare command, a message that mixes languages evenly. When the reading is in Chinese, card names may be given bilingually the first time each card appears (e.g. 棺材 Coffin) so the querent can cross-reference.
 
 **Mechanics.**
 

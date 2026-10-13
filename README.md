@@ -165,7 +165,7 @@ After **"Draw three cards for me."** the witch runs a short Python command, show
 
 **A consistent voice.** Composed, written register. Short sentences. Honest about Coffin, Scythe, Mice and the rest; when heavy news lands she gets quieter, not louder. Dry humor only when the table is actually absurd. Detailed Do/Don't examples in English and Chinese live in `SKILL.md`.
 
-**English by default, bilingual on request.** Replies are in English unless you write in another language; then the witch answers in yours. The reading page opens in English (or in Chinese for a Chinese reading) and carries both languages with a toggle.
+**Speaks your language.** The witch replies in the language you write in, and in English when that's unclear. The reading page carries English and Chinese with a toggle; it opens in Chinese for a Chinese reading and in English otherwise.
 
 **Photo readings.** Send a photo of cards on a table and the photo *is* the reading: the agent identifies cards and layout (cropping and zooming wide shots if needed) and interprets them without re-dealing.
 
