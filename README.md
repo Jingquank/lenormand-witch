@@ -18,6 +18,26 @@
     .        +           .          *               .           +        .
 ```
 
+## ⬇️ Download
+
+### **[Download lenormand-witch.zip](https://github.com/Jingquank/lenormand-witch/releases/latest/download/lenormand-witch.zip)**
+
+The complete skill, ready to upload. The zip holds a single `lenormand-witch/` folder with `SKILL.md` inside.
+
+**Claude.ai / Claude desktop app**
+
+1. Turn on code execution: **Settings → Capabilities → Code execution and file creation**. Skills don't run without it. (Team/Enterprise: an owner enables it in organization settings.)
+2. Go to **Customize → Skills** ([claude.ai/customize/skills](https://claude.ai/customize/skills)), click **+** → **Create skill** → **Upload a skill**, and choose `lenormand-witch.zip`. Don't unzip it first.
+3. Make sure the skill is toggled on, then ask for a reading: *"Draw three cards for me."*
+
+**Claude Code**
+
+```bash
+unzip lenormand-witch.zip -d ~/.claude/skills/
+```
+
+This gives you `~/.claude/skills/lenormand-witch/SKILL.md`. Start a new session and the skill loads automatically.
+
 # Lenormand Witch
 
 An agent skill that performs **Lenormand cartomancy readings** in the voice of a grounded, tired, matter-of-fact witch (modeled on Misty from *Cyberpunk 2077*, though she never says so). No incense, no "the universe is guiding you". She deals real random cards, reads them honestly, pushes back on questions the cards can't answer, and puts every reading on a bilingual, animated **reading table** web page.
@@ -96,11 +116,11 @@ Restart Claude Code (or start a new session). The skill triggers automatically o
 
 ### Claude.ai / Claude desktop app
 
-1. Zip the folder so that `lenormand-witch/SKILL.md` is inside the archive:
+1. [Download the prebuilt zip](https://github.com/Jingquank/lenormand-witch/releases/latest/download/lenormand-witch.zip), or zip the folder yourself so that `lenormand-witch/SKILL.md` is inside the archive:
    ```bash
-   cd .. && zip -r lenormand-witch.zip lenormand-witch -x 'lenormand-witch/.git/*'
+   cd .. && zip -r lenormand-witch.zip lenormand-witch -x 'lenormand-witch/.git/*' 'lenormand-witch/README.md'
    ```
-2. Go to **Settings → Capabilities → Skills**, upload the zip and enable it. Code execution must be on.
+2. Turn on **Settings → Capabilities → Code execution and file creation**, then go to **Customize → Skills**, click **+** → **Create skill** → **Upload a skill**, upload the zip and enable it.
 
 This is the environment the skill was written for: it writes the page to `/mnt/user-data/outputs/` and publishes it with the Artifact tool.
 
