@@ -1,6 +1,7 @@
 # Builds lenormand-witch.zip and attaches it to a GitHub Release.
-# Runs when a release is published, or by hand (Actions → Release zip → Run workflow) for a pushed tag.
-# A manual run creates the release for that tag when none exists yet.
+# Runs when a release is published. It can also run by hand (Actions → Release zip → Run workflow):
+#   new tag:      run it from a branch; it creates the tag and the release at that branch's head.
+#   existing tag: run it from that tag (Use workflow from → Tags); it rebuilds the zip of that release.
 name: Release zip
 
 on:
@@ -9,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Tag to build the zip for (for example v1.1.0); its release is created if missing
+        description: Release tag (for example v1.1.0). A new tag is created at the head of the branch you run from.
         required: true
 
 permissions:
@@ -21,11 +22,18 @@ jobs:
     env:
       TAG: ${{ github.event.release.tag_name || inputs.tag }}
     steps:
-      - name: Check out the tagged commit
+      # A release event checks out the tagged commit; a manual run checks out the branch or tag it runs from.
+      - name: Check out
         uses: actions/checkout@v5
         with:
-          ref: ${{ env.TAG }}
           path: lenormand-witch
+
+      - name: Check the tag
+        run: |
+          if [ "$GITHUB_REF" != "refs/tags/$TAG" ] && git -C lenormand-witch ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null; then
+            echo "::error::Tag $TAG already exists. Run the workflow from that tag (Use workflow from → Tags → $TAG)."
+            exit 1
+          fi
 
       - name: Build the zip
         run: |
@@ -49,5 +57,5 @@ jobs:
             gh release upload "$TAG" lenormand-witch.zip --clobber --repo "$GITHUB_REPOSITORY"
           else
             gh release create "$TAG" lenormand-witch.zip --repo "$GITHUB_REPOSITORY" \
-              --title "$TAG" --generate-notes --verify-tag
+              --target "$GITHUB_SHA" --title "$TAG" --generate-notes
           fi
