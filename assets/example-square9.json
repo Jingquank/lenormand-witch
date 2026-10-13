@@ -1,0 +1,181 @@
+{
+ "spread": "square9",
+ "question": {
+  "zh": "总体状况",
+  "en": "General outlook"
+ },
+ "date": "2026-10-12",
+ "significator": null,
+ "cards": [
+  {
+   "id": 32,
+   "note": {
+    "zh": "过去的阶段里，你获得过名声与认可，情绪投入在创作与工作成果上。",
+    "en": "In the past you earned recognition and reputation; your feelings went into creative work and its results."
+   }
+  },
+  {
+   "id": 35,
+   "note": {
+    "zh": "过去的主轴是稳定与坚持。你在一份长期的工作或一个职位上停留了一段时间。",
+    "en": "Stability and persistence ran through the past. You stayed in one long-term job or role for a while."
+   }
+  },
+  {
+   "id": 18,
+   "note": {
+    "zh": "过去有朋友在场。一段可以托付信任的关系支撑了那个阶段。",
+    "en": "A friend was present. A relationship you could trust carried you through that period."
+   }
+  },
+  {
+   "id": 25,
+   "note": {
+    "zh": "眼下有一份承诺或契约在运转。一段关系或一份合同在约束你的选择。",
+    "en": "A commitment or contract is active now. A relationship or an agreement is constraining your choices."
+   }
+  },
+  {
+   "id": 23,
+   "note": {
+    "zh": "核心位是{{23}}。这是消耗。精力、资源，或对某件事的信心，正在流失。",
+    "en": "The {{23}} sit in the core. This is erosion. Energy, resources, or confidence in something is draining away."
+   }
+  },
+  {
+   "id": 5,
+   "note": {
+    "zh": "健康与生命力进入视野。消耗的代价落在身体与长期的成长上。",
+    "en": "Health and vitality come into view. The cost of the erosion falls on the body and on long-term growth."
+   }
+  },
+  {
+   "id": 24,
+   "note": {
+    "zh": "未来出现感情与心之所向，一份热情回到你身上。",
+    "en": "Affection and what the heart wants arrive in the future; warmth returns to you."
+   }
+  },
+  {
+   "id": 34,
+   "note": {
+    "zh": "未来的主轴是金钱与流动。资源恢复流动，交易与独立成为议题。",
+    "en": "Money and flow lead the future. Resources start moving again; trade and independence become the issue."
+   }
+  },
+  {
+   "id": 11,
+   "note": {
+    "zh": "未来的右列是鞭子。冲突、争执，或一种重复的模式。这张凶牌需要正视。",
+    "en": "The Whip closes the future row. Conflict, argument, or a repeating pattern. This hard card needs to be faced."
+   }
+  }
+ ],
+ "pairs": {
+  "0-1": {
+   "zh": "认可来自长期的坚持。你的名声建立在多年的投入上。",
+   "en": "Recognition comes from persistence. Your reputation rests on years of effort."
+  },
+  "1-2": {
+   "zh": "稳定之中有朋友。那段时间的稳定依靠朋友的忠诚。",
+   "en": "Friendship within stability. The steadiness of that period relied on a friend's loyalty."
+  },
+  "3-4": {
+   "zh": "承诺正在被消耗。一份合同或一段关系在流失价值，或者你对它的投入在减少。",
+   "en": "A commitment is being eroded. An agreement or a relationship is losing value, or your investment in it is shrinking."
+  },
+  "4-5": {
+   "zh": "消耗落在健康上。压力在侵蚀身体，这件事需要处理。",
+   "en": "Erosion lands on health. Stress is wearing on the body, and this needs attention."
+  },
+  "6-7": {
+   "zh": "感情与金钱并置。热情投向一份生意，或一段感情涉及金钱。",
+   "en": "Love beside money. Passion goes into a business, or a relationship involves money."
+  },
+  "7-8": {
+   "zh": "金钱带来争执。资源流动之后，围绕分配或交易会出现冲突。",
+   "en": "Money brings friction. Once resources move, conflict over division or trade follows."
+  },
+  "0-3": {
+   "zh": "认可转化为承诺。过去的名声带来了眼下的约定。",
+   "en": "Recognition turns into commitment. Past reputation led to the present agreement."
+  },
+  "3-6": {
+   "zh": "承诺指向感情。眼下的约定在未来与心之所向相连。",
+   "en": "Commitment points to love. The present agreement connects to what the heart wants later."
+  },
+  "1-4": {
+   "zh": "稳定遭到侵蚀。那份长期的工作正在消耗你。",
+   "en": "Stability under erosion. That long-term work is draining you."
+  },
+  "4-7": {
+   "zh": "消耗指向金钱。资源在流失，财务需要核对。",
+   "en": "Erosion points to money. Resources are leaking; finances need checking."
+  },
+  "2-5": {
+   "zh": "友谊与健康相连。一位朋友会在健康或成长的议题上出现。",
+   "en": "Friendship meets health. A friend appears around a question of health or growth."
+  },
+  "5-8": {
+   "zh": "健康与冲突相连。身体承受重复的压力，也指运动与体力活动。",
+   "en": "Health meets conflict. The body carries repeated strain; also exercise and physical effort."
+  }
+ },
+ "reading": [
+  {
+   "label": {
+    "zh": "过去",
+    "en": "Past"
+   },
+   "text": {
+    "zh": "{{32}}、{{35}}、{{18}}。过去的阶段由认可、坚持与友谊构成。你在一个位置上投入了时间，获得了认可，身边有可以托付信任的人。这一行有两张吉牌和一张中性牌，构成眼下的地基。",
+    "en": "{{32}}, {{35}}, {{18}}. The past was built on recognition, persistence and friendship. You put time into one place, earned recognition, and had people you could trust. Two positive cards and one neutral card; this row is the ground you stand on now."
+   },
+   "fortune": "中吉"
+  },
+  {
+   "label": {
+    "zh": "现在",
+    "en": "Present"
+   },
+   "text": {
+    "zh": "{{25}}、{{23}}、{{5}}。核心位是{{23}}。\n\n这是消耗，它落在牌阵的中心。左侧的{{25}}显示一份承诺或契约在约束你；右侧的{{5}}显示代价落在健康与长期的成长上。三张连起来解读：一份你承担下来的约定，正在消耗你的精力，消耗已经触及身体。",
+    "en": "{{25}}, {{23}}, {{5}}. The {{23}} sit in the core.\n\nThis is erosion, and it sits at the center of the spread. The {{25}} on the left shows a commitment or contract binding you; the {{5}} on the right shows the cost landing on health and long-term growth. Read together: an agreement you took on is draining your energy, and the drain has reached your body."
+   },
+   "fortune": "凶"
+  },
+  {
+   "label": {
+    "zh": "中列",
+    "en": "Middle column"
+   },
+   "text": {
+    "zh": "{{35}}、{{23}}、{{34}}。这一列从稳定出发，经过消耗，抵达金钱。长期的工作在侵蚀你，未来的议题会落在资源与收入上。",
+    "en": "{{35}}, {{23}}, {{34}}. The column runs from stability, through erosion, to money. Long-term work is wearing you down, and the next question will be about resources and income."
+   },
+   "fortune": "凶"
+  },
+  {
+   "label": {
+    "zh": "未来",
+    "en": "Future"
+   },
+   "text": {
+    "zh": "{{24}}、{{34}}、{{11}}。{{24}}与{{34}}显示感情与资源恢复流动；{{11}}收在右列。{{34}}与{{11}}并置，读作金钱带来争执，或一种重复的模式在财务上出现。未来有回报，也有冲突。",
+    "en": "{{24}}, {{34}}, {{11}}. {{24}} and {{34}} show affection and resources flowing again; the {{11}} closes the row. {{34}} beside {{11}} reads as money causing friction, or a repeating pattern in your finances. The future holds reward, and it holds conflict."
+   },
+   "fortune": "小吉"
+  },
+  {
+   "label": {
+    "zh": "综合",
+    "en": "Synthesis"
+   },
+   "text": {
+    "zh": "这副牌的重心在中心的{{23}}。过去的认可与友谊为你提供了基础，现在的一份承诺在消耗你，代价已经落到身体上。未来有感情与资源回流，并伴随围绕金钱的冲突。需要处理的是那份约定：确认它消耗了你什么，确认你从中得到什么。\n\n亲爱的求问者，{{23}}落在核心位。眼下消耗你的事情，可以在这里讲述。",
+    "en": "The weight of this spread sits on the {{23}} in the center. Past recognition and friendship gave you a foundation; a present commitment is draining you, and the cost has reached your body. Ahead, affection and money return, along with conflict over money. The thing to deal with is that agreement: work out what it costs you, and what you get from it.\n\nHon, the {{23}} are in the core. If you want to tell me what is wearing you down, I'm here."
+   },
+   "fortune": "末吉"
+  }
+ ]
+}
