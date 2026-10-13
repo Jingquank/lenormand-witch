@@ -90,7 +90,7 @@ An agent skill that performs **Lenormand cartomancy readings** in the voice of a
 - switch between light and dark mode
 - export the whole reading as a PNG
 
-Each section of the reading carries an honest **fortune grade**: 大吉 · 中吉 · 小吉 · 吉 · 末吉 · 凶 · 大凶.
+Each section of the reading carries an honest **fortune grade** on the seven-step omikuji scale: great blessing · middle blessing · small blessing · blessing · future blessing · curse · great curse.
 
 ---
 
@@ -112,7 +112,7 @@ Project skill (shared with everyone on the repo):
 git clone https://github.com/Jingquank/lenormand-witch.git .claude/skills/lenormand-witch
 ```
 
-Restart Claude Code (or start a new session). The skill triggers automatically on things like "draw three cards", "发牌", or a photo of a spread. You can check that it loaded by asking *"What skills are available?"*.
+Restart Claude Code (or start a new session). The skill triggers automatically on things like "draw three cards", "deal the cards" (in any language), or a photo of a spread. You can check that it loaded by asking *"What skills are available?"*.
 
 ### Claude.ai / Claude desktop app
 
@@ -143,7 +143,7 @@ Without a shell, the agent cannot draw cards honestly and the skill tells it to 
 **Direct deal, no question**
 
 ```
-> 发牌，九宫格
+> Deal the cards, 9-card square.
 ```
 
 The witch draws 9 cards, lays them out in ASCII, writes a general-outlook reading to the page and replies with the layout, a synthesis paragraph and the page link.
@@ -260,7 +260,7 @@ Errors (exit code `1`, nothing is written):
 - a card id is outside 1–36, or appears twice
 - in a Grand Tableau, the `significator` isn't one of the dealt cards
 - a `pairs` key isn't two orthogonally adjacent positions (`a-b`, 0-based, `a < b`)
-- a section's `fortune` isn't one of 大吉 中吉 小吉 吉 末吉 凶 大凶 (romaji forms like `daikichi` are also accepted)
+- a section's `fortune` isn't one of the seven grades: `daikichi`, `chukichi`, `shokichi`, `kichi`, `suekichi`, `kyo`, `daikyo` (the kanji forms are also accepted)
 - a `{{id}}` chip token isn't a valid card number
 
 Warnings (printed, page still written):
@@ -282,7 +282,7 @@ The script injects the JSON into the template's `__READING_DATA__` placeholder, 
 ```json
 {
   "spread": "line3",
-  "question": {"zh": "新工作", "en": "My new job"},
+  "question": {"zh": "…", "en": "My new job"},
   "date": "2026-10-13",
   "significator": null,
   "positions": null,
@@ -296,7 +296,7 @@ The script injects the JSON into the template's `__READING_DATA__` placeholder, 
     "1-2": {"zh": "…", "en": "…"}
   },
   "reading": [
-    {"label": {"zh": "综合", "en": "Synthesis"}, "fortune": "小吉",
+    {"label": {"zh": "…", "en": "Synthesis"}, "fortune": "shokichi",
      "text": {"zh": "{{14}}……", "en": "The {{14}} …"}}
   ]
 }
@@ -305,7 +305,7 @@ The script injects the JSON into the template's `__READING_DATA__` placeholder, 
 - Every text field is a string or `{"zh": …, "en": …}`; write both.
 - `{{id}}` inside text renders as a clickable card chip (thumbnail, localized name, playing-card insert). Don't also write the card name next to it.
 - `pairs` keys are 0-based adjacent positions; the earlier card is the subject, the later one modifies it.
-- `positions` overrides the default labels (line3: 情境 行动 结果 / Situation Action Outcome; line5: 远因 近因 核心 近期 走向; square9: past / present / future rows with a core; GT: row, column and house).
+- `positions` overrides the default labels (line3: Situation, Action, Outcome; line5: Distant cause, Recent cause, Core, Near future, Direction; square9: past / present / future rows with a core; GT: row, column and house).
 - A blank line inside `text` starts a new paragraph.
 
 The full schema, section order for each spread and the fortune-grading table are in [`references/reading-table.md`](references/reading-table.md). [`assets/example-square9.json`](assets/example-square9.json) is a complete example.
