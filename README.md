@@ -22,21 +22,9 @@
 
 ### **[Download lenormand-witch.zip](https://github.com/Jingquank/lenormand-witch/releases/latest/download/lenormand-witch.zip)**
 
-The complete skill, ready to upload. The zip holds a single `lenormand-witch/` folder with `SKILL.md` inside.
+The complete skill. The zip holds a single `lenormand-witch/` folder with `SKILL.md` inside. Upload it as is to **Claude.ai** or **ChatGPT**.
 
-**Claude.ai / Claude desktop app**
-
-1. Turn on code execution: **Settings → Capabilities → Code execution and file creation**. Skills don't run without it. (Team/Enterprise: an owner enables it in organization settings.)
-2. Go to **Customize → Skills** ([claude.ai/customize/skills](https://claude.ai/customize/skills)), click **+** → **Create skill** → **Upload a skill**, and choose `lenormand-witch.zip`. Don't unzip it first.
-3. Make sure the skill is toggled on, then ask for a reading: *"Draw three cards for me."*
-
-**Claude Code**
-
-```bash
-unzip lenormand-witch.zip -d ~/.claude/skills/
-```
-
-This gives you `~/.claude/skills/lenormand-witch/SKILL.md`. Start a new session and the skill loads automatically.
+**Claude Code, Codex, Cursor, Grok Bot, Muse and Dots** can install it from GitHub with one prompt: see [Install with one prompt](#install-with-one-prompt). Step by step guides for every product are under [Installation](#installation).
 
 # Lenormand Witch
 
@@ -50,6 +38,19 @@ An agent skill that performs **Lenormand cartomancy readings** in the voice of a
 
 - [Features](#features)
 - [Installation](#installation)
+  - [Which method for which product](#which-method-for-which-product)
+  - [Install with one prompt](#install-with-one-prompt)
+  - [Claude.ai and the Claude apps](#claudeai-and-the-claude-apps)
+  - [ChatGPT](#chatgpt)
+  - [Claude Code](#claude-code)
+  - [Codex](#codex)
+  - [Cursor](#cursor)
+  - [Grok Bot](#grok-bot)
+  - [Muse](#muse)
+  - [Dots](#dots)
+  - [Other agents](#other-agents)
+  - [Check that it works](#check-that-it-works)
+  - [Updating](#updating)
 - [Usage examples](#usage-examples)
 - [File structure](#file-structure)
 - [The render script](#the-render-script)
@@ -60,7 +61,7 @@ An agent skill that performs **Lenormand cartomancy readings** in the voice of a
 
 ## Features
 
-**Real draws.** Cards are dealt with Python's `secrets.SystemRandom`, without replacement. The agent is told never to invent cards; if the command can't run, the reading stops.
+**Real draws.** Cards are dealt with Python's `secrets.SystemRandom`, without replacement. The agent is told never to invent cards; if the command can't run, the witch asks you to deal from your own deck and reads the cards you send.
 
 **Four spreads, plus custom counts.**
 
@@ -96,37 +97,243 @@ Each section of the reading carries an honest **fortune grade** on the seven-ste
 
 ## Installation
 
-The skill is a plain folder with a `SKILL.md` at its root, following the Agent Skills format. The only runtime dependency is **Python 3** (standard library only) for drawing cards and rendering the page.
+The skill is a plain folder with a `SKILL.md` at its root, in the open [Agent Skills](https://agentskills.io) format. Every product below reads that same folder. The only runtime dependency is **Python 3** (standard library only), which draws the cards and builds the reading page.
+
+### Which method for which product
+
+| Product | Fastest install | Cards are drawn in | The reading page arrives as |
+| --- | --- | --- | --- |
+| Claude.ai, Claude desktop app | Upload the zip | Claude's code execution | An Artifact page |
+| ChatGPT | Upload the zip (Skills), or a custom GPT | ChatGPT's Python sandbox | A download link |
+| Claude Code | One command, or one prompt | Your terminal | An HTML file opened in your browser |
+| Codex | One prompt (`$skill-installer`) | Your terminal | An HTML file opened in your browser |
+| Cursor | One prompt | Your terminal | An HTML file opened in your browser |
+| Grok Bot | One prompt | The Bot's cloud computer | An HTML file the Bot sends |
+| Muse | One prompt, or paste the text | Muse's workspace, when it can run code | An HTML file, or chat only |
+| Dots | Install in ChatGPT, or one prompt | The Dot's cloud computer | An HTML file the Dot sends |
+
+The hosted products already have Python. On your own machine, check with `python3 --version` (Windows: `python --version`) and install Python 3 from [python.org](https://www.python.org/downloads/) if it's missing.
+
+### Install with one prompt
+
+This works in any agent that can run shell commands and reach GitHub: Claude Code, Codex, Cursor, Grok Bot, Dots, and Muse when it has a workspace. Paste the whole block into the agent's chat:
+
+```text
+Install the Agent Skill "lenormand-witch" from https://github.com/Jingquank/lenormand-witch.
+
+1. Find the folder this agent loads skills from. Known locations:
+   Claude Code: ~/.claude/skills/
+   Codex: ~/.agents/skills/ (older versions: ~/.codex/skills/)
+   Cursor: ~/.cursor/skills/
+   Grok Bot: ~/agent-data/workflows/
+   Muse: ~/workspace/skills/
+   Any other agent: its own skills folder, or ~/.agents/skills/
+2. Clone the repository into <that folder>/lenormand-witch so that SKILL.md sits directly inside it:
+   git clone --depth 1 https://github.com/Jingquank/lenormand-witch.git <that folder>/lenormand-witch
+   If git is missing, download https://github.com/Jingquank/lenormand-witch/archive/refs/heads/main.zip and unpack it to the same place.
+   Keep every file. cards.md, spreads.md, references/, assets/ and scripts/ are part of the skill.
+3. Run python3 --version (or python --version) and tell me if Python 3 is missing.
+4. Tell me the full install path and whether I need to restart you or open a new chat.
+```
+
+When the agent reports the path, restart it or open a new chat, then [check that it works](#check-that-it-works).
+
+The Grok Bot and Muse folders come from community reports. As of October 2026 neither xAI nor Meta documents a skill folder. If the agent says its skill library lives somewhere else, let it use that place.
+
+### Claude.ai and the Claude apps
+
+1. [Download lenormand-witch.zip](https://github.com/Jingquank/lenormand-witch/releases/latest/download/lenormand-witch.zip). Keep it zipped.
+2. Turn on code execution: **Settings → Capabilities → Code execution and file creation**. Skills need it. On Team and Enterprise plans an owner turns it on in the organization settings.
+3. Open **Customize → Skills** ([claude.ai/customize/skills](https://claude.ai/customize/skills)).
+4. Click **+** → **Create skill** → **Upload a skill**, and choose `lenormand-witch.zip`.
+5. Check that the skill's toggle is on.
+6. Start a new chat and ask *"Draw three cards for me."*
+
+The same steps work in the Claude desktop app. This is the host the skill was first written for: the reading page is published as an Artifact.
+
+### ChatGPT
+
+ChatGPT runs Agent Skills on the Business, Enterprise, Edu and Healthcare plans, and on other paid plans as the rollout reaches them. If you have no **Skills** page, use the custom GPT route (B).
+
+**A. Upload the skill**
+
+1. [Download lenormand-witch.zip](https://github.com/Jingquank/lenormand-witch/releases/latest/download/lenormand-witch.zip).
+2. Open ChatGPT on the web. In the sidebar, open **Skills**. In some workspaces it is a **Skills** tab inside **Plugins**.
+3. Click **+** → **Upload from your computer** and choose the zip.
+4. Wait while ChatGPT scans the bundle, then check that the skill is turned on.
+5. Start a new chat and ask *"Draw three cards for me."* The reading page comes back as a download link; open the file in your browser.
+
+On Enterprise and Edu, an admin may need to turn on skills and skill uploads first. Skills uploaded on the web may not appear in the desktop app; if so, upload the zip there as well.
+
+**B. Custom GPT (any paid plan without Skills)**
+
+1. [Download the repository zip](https://github.com/Jingquank/lenormand-witch/archive/refs/heads/main.zip) and unzip it.
+2. In ChatGPT, open **GPTs** → **Create**, then the **Configure** tab.
+3. **Name:** `Lenormand Witch`.
+4. **Instructions:** paste this block.
+
+   ```text
+   You are the Lenormand witch defined in SKILL.md, one of your knowledge files.
+   Before your first reply in a conversation, read SKILL.md, cards.md and spreads.md from /mnt/data with Python, then follow SKILL.md exactly.
+   All skill files sit flat in /mnt/data. Treat /mnt/data as <skill-dir>.
+   Draw cards only with the Python command in SKILL.md Step 2, run in the code tool. Never invent cards.
+   Build the reading page with: python3 /mnt/data/render_reading.py /mnt/data/reading.json
+   Then give the user a download link to /mnt/data/lenormand-table.html.
+   ```
+
+5. **Knowledge:** upload these seven files from the unzipped folder:
+   `SKILL.md`, `cards.md`, `spreads.md`, `references/reading-table.md`, `assets/example-square9.json`, `assets/reading-table.template.html`, `scripts/render_reading.py`.
+6. **Capabilities:** turn on **Code Interpreter & Data Analysis**.
+7. Click **Create** and share it with **Only me** (or anyone you like).
 
 ### Claude Code
 
-Personal skill (available in every project):
+Pick one of three ways.
+
+**A. One command (plugin).** In Claude Code 2.1.275 or later:
+
+```text
+/plugin install lenormand-witch --marketplace Jingquank/lenormand-witch
+```
+
+On older versions, run two commands:
+
+```text
+/plugin marketplace add Jingquank/lenormand-witch
+/plugin install lenormand-witch@lenormand-witch
+```
+
+The skill then shows up as `lenormand-witch:lenormand-witch`.
+
+**B. One prompt.** Paste into Claude Code:
+
+```text
+Clone https://github.com/Jingquank/lenormand-witch into ~/.claude/skills/lenormand-witch and confirm that ~/.claude/skills/lenormand-witch/SKILL.md exists.
+```
+
+**C. Terminal.**
 
 ```bash
+# personal skill, available in every project
 git clone https://github.com/Jingquank/lenormand-witch.git ~/.claude/skills/lenormand-witch
+
+# or a project skill, shared with everyone on the repo
+git clone https://github.com/Jingquank/lenormand-witch.git .claude/skills/lenormand-witch
+
+# or through the cross-agent installer
+npx skills add Jingquank/lenormand-witch -g -a claude-code
 ```
 
-Project skill (shared with everyone on the repo):
+Restart Claude Code (or start a new session). Ask *"What skills are available?"* to confirm it loaded. Each reading page is written to your system temp folder and opened in your browser; if the session has an Artifact tool, the witch publishes the page there.
+
+### Codex
+
+Works in the Codex CLI, the IDE extension and the Codex app.
+
+**A. One prompt (built-in installer).** Paste into Codex:
+
+```text
+$skill-installer install the skill at the root of the GitHub repo Jingquank/lenormand-witch: --repo Jingquank/lenormand-witch --path . --name lenormand-witch
+```
+
+It installs to `~/.codex/skills/lenormand-witch`. If that folder already exists, the installer stops; delete the old folder first.
+
+**B. Terminal.**
 
 ```bash
-git clone https://github.com/Jingquank/lenormand-witch.git .claude/skills/lenormand-witch
+# cross-agent installer (installs to ~/.agents/skills/lenormand-witch)
+npx skills add Jingquank/lenormand-witch -g -a codex
+
+# or plain git
+git clone https://github.com/Jingquank/lenormand-witch.git ~/.agents/skills/lenormand-witch
 ```
 
-Restart Claude Code (or start a new session). The skill triggers automatically on things like "draw three cards", "deal the cards" (in any language), or a photo of a spread. You can check that it loaded by asking *"What skills are available?"*.
+For a single repository, clone into `.agents/skills/lenormand-witch` inside that repository.
 
-### Claude.ai / Claude desktop app
+Restart Codex. Ask *"Draw three cards for me"*, or call the skill by name with `$lenormand-witch`. Depending on your approval mode, Codex asks before it runs the Python draw command; approve it.
 
-1. [Download the prebuilt zip](https://github.com/Jingquank/lenormand-witch/releases/latest/download/lenormand-witch.zip), or zip the folder yourself so that `lenormand-witch/SKILL.md` is inside the archive:
-   ```bash
-   cd .. && zip -r lenormand-witch.zip lenormand-witch -x 'lenormand-witch/.git/*' 'lenormand-witch/README.md'
+### Cursor
+
+**A. One prompt.** Paste into the Agent chat:
+
+```text
+Clone https://github.com/Jingquank/lenormand-witch into ~/.cursor/skills/lenormand-witch and confirm that SKILL.md sits directly inside that folder.
+```
+
+**B. Terminal.**
+
+```bash
+# macOS / Linux
+git clone https://github.com/Jingquank/lenormand-witch.git ~/.cursor/skills/lenormand-witch
+
+# or through the cross-agent installer (installs to ~/.agents/skills, which Cursor also reads)
+npx skills add Jingquank/lenormand-witch -g -a cursor
+```
+
+```powershell
+# Windows PowerShell
+git clone https://github.com/Jingquank/lenormand-witch.git "$HOME\.cursor\skills\lenormand-witch"
+```
+
+For a single project, clone into `.cursor/skills/lenormand-witch` inside it. Cursor also reads `~/.claude/skills/` and `~/.agents/skills/`, so an install made for Claude Code or Codex already works here.
+
+Reload the window (or restart Cursor). In the Agent chat, type `/lenormand-witch` or just ask *"Draw three cards for me."* Approve the Python terminal command when Cursor asks. On Windows, install Python 3 from python.org with **Add python.exe to PATH** ticked; the skill falls back to `python` or `py -3` when `python3` is missing.
+
+### Grok Bot
+
+Each Bot runs on its own cloud computer and keeps reusable skills in a skill library, so it can download this skill and keep it there.
+
+1. Open the chat of the Bot that should read cards.
+2. Paste this prompt:
+
+   ```text
+   Install the agent skill at https://github.com/Jingquank/lenormand-witch into your skill library as lenormand-witch. Download the whole repository: SKILL.md uses cards.md, spreads.md, references/, assets/ and scripts/. Put it in ~/agent-data/workflows/lenormand-witch/ unless your skill library lives elsewhere. Then check that python3 runs and list the files you saved.
    ```
-2. Turn on **Settings → Capabilities → Code execution and file creation**, then go to **Customize → Skills**, click **+** → **Create skill** → **Upload a skill**, upload the zip and enable it.
 
-This is the environment the skill was written for: it writes the page to `/mnt/user-data/outputs/` and publishes it with the Artifact tool.
+3. Approve the download and file writes if the Bot asks.
+4. Ask *"Draw three cards for me."* The Bot sends the reading page as an HTML file.
+
+### Muse
+
+As of October 2026, Meta hasn't documented a way to add your own skills to Muse. Two routes are available.
+
+**A. One prompt** (when your Muse can browse and keep files):
+
+```text
+Save the agent skill at https://github.com/Jingquank/lenormand-witch as a reusable skill named lenormand-witch, with all of its files: SKILL.md, cards.md, spreads.md, references/, assets/ and scripts/. If you have a workspace, keep it in ~/workspace/skills/lenormand-witch/. Use it whenever I ask for a Lenormand reading or to draw cards, and remember this for future conversations.
+```
+
+**B. Paste the text.**
+
+1. Open [SKILL.md (raw)](https://raw.githubusercontent.com/Jingquank/lenormand-witch/main/SKILL.md) and copy all of it.
+2. Paste it into a Muse chat and add: *"Use this skill whenever I ask for a Lenormand reading or to draw cards. Remember it for future conversations."*
+3. Do the same with [cards.md](https://raw.githubusercontent.com/Jingquank/lenormand-witch/main/cards.md) and [spreads.md](https://raw.githubusercontent.com/Jingquank/lenormand-witch/main/spreads.md), one message each, starting with *"Part of the lenormand-witch skill:"*.
+
+If Muse can't run Python, the witch says so and asks you to deal from your own Lenormand deck. Send a photo or the card names in order, and she reads them in chat, without the page.
+
+### Dots
+
+Dots are OpenAI's personal agents. Each Dot has its own cloud computer and uses the apps and plugins connected to your ChatGPT account.
+
+**A. Through ChatGPT.** Install the skill in ChatGPT first ([ChatGPT, route A](#chatgpt)). Then ask your Dot *"Which skills can you use?"* If `lenormand-witch` is listed, you are done.
+
+**B. One prompt.** If the skill isn't listed, paste this into the Dot's chat:
+
+```text
+On your computer, download https://github.com/Jingquank/lenormand-witch into ~/skills/lenormand-witch and keep every file. Whenever I ask for a Lenormand reading or to draw cards, read ~/skills/lenormand-witch/SKILL.md and follow it exactly. Check that python3 runs, then list the files you saved.
+```
+
+Ask *"Draw three cards for me."* The Dot sends the reading page as an HTML file.
 
 ### Other agents
 
-Any agent that supports the `SKILL.md` convention can load the folder from its skills directory; see that agent's documentation for the exact location.
+Any agent that supports the `SKILL.md` convention can load the folder from its skills directory. The [`npx skills`](https://github.com/vercel-labs/skills) installer knows the folders of many agents:
+
+```bash
+npx skills add Jingquank/lenormand-witch -g
+```
+
+It asks which agents to install for. Add `-a <agent>` to skip the question.
 
 For an agent without skill support:
 
@@ -134,7 +341,34 @@ For an agent without skill support:
 2. Make `cards.md`, `spreads.md` and `references/reading-table.md` readable by the agent, or paste them in as context.
 3. Give it a shell with Python 3 so it can run the draw command and `scripts/render_reading.py`.
 
-Without a shell, the agent cannot draw cards honestly and the skill tells it to stop rather than improvise. Photo readings still work if the model can see images.
+Without a shell, the agent can't draw cards honestly. The skill then asks you to deal from a physical deck and reads the cards you send. Photo readings work whenever the model can see images.
+
+### Check that it works
+
+Ask *"Draw three cards for me."* A working install:
+
+1. runs a Python command to draw (your agent may ask you to approve it),
+2. shows three boxed cards and a short synthesis,
+3. gives you the reading page as a link, a file or a path.
+
+If the agent names cards without running anything, the skill didn't load. Restart the agent, or ask it *"Which skills do you have?"* and check that `lenormand-witch` is on the list.
+
+### Updating
+
+| Installed with | How to update |
+| --- | --- |
+| Zip upload (Claude.ai, ChatGPT) | Download the new zip, delete the old skill, upload again |
+| `git clone` | `git -C <skills folder>/lenormand-witch pull` |
+| `npx skills` | `npx skills update` |
+| Claude Code plugin | `/plugin marketplace update lenormand-witch` |
+| Codex `$skill-installer` | Delete `~/.codex/skills/lenormand-witch`, then run the install prompt again |
+| A prompt (Grok Bot, Muse, Dots) | Send the same prompt again and ask the agent to replace the old copy |
+
+To build the zip yourself (for example after editing the skill), run this from the folder above the repository:
+
+```bash
+zip -r lenormand-witch.zip lenormand-witch -x 'lenormand-witch/.git/*' 'lenormand-witch/.claude-plugin/*' 'lenormand-witch/README.md'
+```
 
 ---
 
@@ -207,9 +441,12 @@ A plain answer from `cards.md`; no spread built around it.
 
 ```
 lenormand-witch/
-├── SKILL.md                          # The skill: persona, rules, question shaping,
-│                                     #   workflow (draw → lay out → interpret → render),
-│                                     #   Grand Tableau summary, photo handling, voice guide
+├── .claude-plugin/
+│   └── marketplace.json              # Lets Claude Code install the folder as a plugin
+├── SKILL.md                          # The skill: persona, rules, per-host paths and delivery,
+│                                     #   question shaping, workflow (draw → lay out →
+│                                     #   interpret → render), Grand Tableau summary,
+│                                     #   photo handling, voice guide
 ├── cards.md                          # The 36 cards: EN/ZH names, playing-card inserts,
 │                                     #   polarity, meanings, combination principles,
 │                                     #   ordered-pair examples
@@ -234,22 +471,25 @@ lenormand-witch/
 `scripts/render_reading.py` turns a reading JSON into a standalone HTML page. It uses only the Python standard library.
 
 ```bash
-python3 scripts/render_reading.py <reading.json> [output.html]
+python3 scripts/render_reading.py <reading.json> [output.html] [--open]
 ```
 
 | Argument | Meaning |
 | --- | --- |
 | `reading.json` | The reading, in the schema below. Required. |
-| `output.html` | Where to write the page. Optional; defaults to `/mnt/user-data/outputs/lenormand-table.html` (the Claude.ai sandbox path). Outside Claude.ai, pass your own path. |
+| `output.html` | Where to write the page. Optional. Without it, the script picks the host default: `/mnt/user-data/outputs/lenormand-table.html` on Claude.ai, `/mnt/data/lenormand-table.html` on ChatGPT, and `lenormand-witch/lenormand-table.html` inside the system temp folder everywhere else. |
+| `--open` | Open the page in the default browser after writing it (local machines). |
+
+The script looks for the template in `assets/` next to `scripts/`, and also in its own folder, so a flat copy of the files (as in a custom GPT's knowledge) works too. It prints the full path it wrote.
 
 Try it with the bundled example:
 
 ```bash
-python3 scripts/render_reading.py assets/example-square9.json ./lenormand-table.html
-# ok: lenormand-table.html (2.21 MB)
+python3 scripts/render_reading.py assets/example-square9.json ./lenormand-table.html --open
+# ok: /path/to/lenormand-table.html (2.21 MB)
 ```
 
-Open the resulting file in any browser. It works offline.
+The page works offline in any browser.
 
 **What it checks**
 
@@ -257,7 +497,7 @@ Errors (exit code `1`, nothing is written):
 
 - `spread` is not one of `line3`, `line5`, `square9`, `gt`
 - the number of cards doesn't match the spread (3, 5, 9, 36)
-- a card id is outside 1–36, or appears twice
+- a card id is outside 1 to 36, or appears twice
 - in a Grand Tableau, the `significator` isn't one of the dealt cards
 - a `pairs` key isn't two orthogonally adjacent positions (`a-b`, 0-based, `a < b`)
 - a section's `fortune` isn't one of the seven grades: `daikichi`, `chukichi`, `shokichi`, `kichi`, `suekichi`, `kyo`, `daikyo` (the kanji forms are also accepted)
@@ -314,8 +554,9 @@ The full schema, section order for each spread and the fortune-grading table are
 
 ## Notes and limitations
 
-- **Built for Claude.ai first.** The default output path (`/mnt/user-data/outputs/`), the working file (`/home/claude/reading.json`), the Artifact-tool publishing step and the pinned page URL in `references/reading-table.md` all assume the Claude.ai sandbox. In Claude Code or elsewhere, write the JSON wherever you like, pass an explicit output path and open the HTML locally. If no publishing tool exists, the skill gives the full reading in chat instead.
-- **Structured questions.** Spread choice, significator choice and reshape options use the environment's question tool (`AskUserQuestion` in Claude Code, `ask_user_input_v0` in the Claude app). Agents without one fall back to listing options in prose.
+- **Each host delivers the page its own way.** `SKILL.md` has a table of hosts (Claude apps, ChatGPT, coding agents, personal agents) with the working file, the page path and the delivery for each: an Artifact on Claude.ai, a download link in ChatGPT, a browser tab for local agents, a file sent by a personal agent. The pinned page URL in `references/reading-table.md` belongs to the skill's author; for anyone else the update is refused and the witch publishes a new page. If a host can't build or share the page, the full reading goes in chat.
+- **Honest draws need Python.** Without a way to run code, the witch asks you to deal from your own deck and reads the cards you send.
+- **Structured questions.** Spread choice, significator choice and reshape options use the environment's question tool (`AskUserQuestion` in Claude Code, `ask_user_input_v0` in the Claude app). Agents without one fall back to a short numbered list.
 - **The page supports 3, 5, 9 and 36 cards.** Custom counts and 8 × 4 + 4 Grand Tableaux are read in chat only.
 - **Entertainment and reflection.** This is a structured way to think about a situation, not a source of facts. It isn't medical, legal, financial or psychological advice, and the skill says so when the question calls for it.
 

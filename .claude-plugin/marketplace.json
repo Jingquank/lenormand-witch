@@ -1,0 +1,18 @@
+{
+  "name": "lenormand-witch",
+  "owner": {
+    "name": "Jingquank"
+  },
+  "metadata": {
+    "description": "Lenormand card readings by a grounded, plain-spoken witch, with a bilingual reading table page."
+  },
+  "plugins": [
+    {
+      "name": "lenormand-witch",
+      "description": "Lenormand card readings by a grounded, plain-spoken witch: real random draws, question reshaping, photo readings and a bilingual reading table page.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./"]
+    }
+  ]
+}

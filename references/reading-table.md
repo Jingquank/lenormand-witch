@@ -7,14 +7,18 @@ The template embeds the Green Glyphs Lenormand faces, the Misty design system to
 ## Workflow
 
 1. Draw with the command in SKILL.md Step 2. Card order from the command is position order.
-2. Write the reading JSON to `/home/claude/reading.json` (schema below). Write every text field in both languages.
-3. Render: `python3 <skill-dir>/scripts/render_reading.py /home/claude/reading.json`. It validates the JSON and writes `/mnt/user-data/outputs/lenormand-table.html`. Fix every `error:` line and rerun; read every `warning:` line and fix it unless it is intended.
-4. Publish with the Artifact tool, action `publish`, `file_path` `/mnt/user-data/outputs/lenormand-table.html`, `favicon` 🌘, `title` "雷诺曼牌阵".
-   - The querent wants one page updated for every reading. Pass the page's link as `url` to update it in place. The current page: `https://claude.ai/artifact/AzDvT8r2HU1CR9VontCdUT`.
-   - When updating, omit `capabilities` so the stored declaration carries forward.
-   - If the update is refused (the link is not the querent's, or the page no longer exists), publish without `url` and with `capabilities: {"downloads": true}`, then tell the querent the new link once.
-   - A new reading replaces the old one on the page. Earlier readings survive only as exported images.
-5. In chat: the ASCII layout in a code block, the synthesis paragraph, and the page link. The full position, pair and section text lives on the page; do not paste it into chat a second time.
+2. Write the reading JSON (schema below) to the working file for your host, listed in SKILL.md under "Where you are running" (Claude.ai: `/home/claude/reading.json`; ChatGPT: `/mnt/data/reading.json`; elsewhere: any writable folder). Write every text field in both languages.
+3. Render: `python3 <skill-dir>/scripts/render_reading.py <working file> [output.html] [--open]`. It validates the JSON and writes the page. Without an output path it picks the host default: `/mnt/user-data/outputs/lenormand-table.html` on Claude.ai, `/mnt/data/lenormand-table.html` on ChatGPT, otherwise `lenormand-witch/lenormand-table.html` inside the system temp folder. It prints the full path it wrote. `--open` opens the page in the default browser on a local machine. Fix every `error:` line and rerun; read every `warning:` line and fix it unless it is intended.
+4. Deliver the page.
+   - **Any host with an Artifact tool** (Claude.ai, the Claude apps, Claude Code sessions that have one): action `publish`, `file_path` set to the page the script wrote, `title` "雷诺曼牌阵", and the icon (`favicon` 🌘, or `icon` `moon` where the tool takes a word).
+     - The querent wants one page updated for every reading. Pass the page's link as `url` to update it in place. The current page: `https://claude.ai/artifact/AzDvT8r2HU1CR9VontCdUT`.
+     - When updating, omit `capabilities` so the stored declaration carries forward.
+     - If the update is refused (the link is not the querent's, or the page no longer exists), publish without `url` and with `capabilities: {"downloads": true}`, then tell the querent the new link once.
+     - A new reading replaces the old one on the page. Earlier readings survive only as exported images.
+   - **ChatGPT:** link the file for download, `[lenormand-table.html](sandbox:/mnt/data/lenormand-table.html)`. The querent opens it in a browser.
+   - **Claude Code, Codex, Cursor and other local agents without an Artifact tool:** render with `--open` and give the full path. Each render overwrites the same file.
+   - **Personal agents with their own computer (Grok Bot, Dots, Muse):** send the HTML file through the agent's file sharing (attachment, shared folder or download link).
+5. In chat: the ASCII layout in a code block, the synthesis paragraph, and the page link or path. The full position, pair and section text lives on the page; do not paste it into chat a second time.
 
 A follow-up drill-down on cards already on the table is answered in chat. Re-render and republish only when the querent asks for the page to change, or when a new draw happens.
 

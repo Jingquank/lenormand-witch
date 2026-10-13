@@ -2,20 +2,37 @@
 """Validate a reading JSON file and render it into the reading table template.
 
 Usage:
-    python3 render_reading.py reading.json [output.html]
+    python3 render_reading.py reading.json [output.html] [--open]
 
-Default output: /mnt/user-data/outputs/lenormand-table.html
+Default output, by host:
+    Claude.ai     /mnt/user-data/outputs/lenormand-table.html
+    ChatGPT       /mnt/data/lenormand-table.html
+    anywhere else <system temp>/lenormand-witch/lenormand-table.html
+--open opens the written page in the default browser (local machines).
 Exit code 1 on schema errors (nothing is written). Warnings are printed and do not block.
 """
+import argparse
 import json
 import re
 import sys
+import tempfile
+import webbrowser
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-TEMPLATE = HERE.parent / "assets" / "reading-table.template.html"
+TEMPLATE_NAME = "reading-table.template.html"
+# The skill folder layout first; then flat copies (a custom GPT's knowledge files all sit in /mnt/data).
+TEMPLATE_CANDIDATES = [HERE.parent / "assets" / TEMPLATE_NAME, HERE / "assets" / TEMPLATE_NAME,
+                       HERE / TEMPLATE_NAME, Path.cwd() / TEMPLATE_NAME]
 PLACEHOLDER = "__READING_DATA__"
-DEFAULT_OUT = Path("/mnt/user-data/outputs/lenormand-table.html")
+PAGE_NAME = "lenormand-table.html"
+
+
+def default_out():
+    for host_dir in (Path("/mnt/user-data/outputs"), Path("/mnt/data")):
+        if host_dir.is_dir():
+            return host_dir / PAGE_NAME
+    return Path(tempfile.gettempdir()) / "lenormand-witch" / PAGE_NAME
 
 SPREADS = {"line3": (3, 3), "line5": (5, 5), "square9": (9, 3), "gt": (36, 9)}
 FORTUNES = {"大吉", "中吉", "小吉", "吉", "末吉", "凶", "大凶",
@@ -53,8 +70,13 @@ def main():
     if len(sys.argv) < 2:
         print(__doc__)
         sys.exit(2)
-    src = Path(sys.argv[1])
-    out = Path(sys.argv[2]) if len(sys.argv) > 2 else DEFAULT_OUT
+    ap = argparse.ArgumentParser(usage="render_reading.py reading.json [output.html] [--open]")
+    ap.add_argument("reading")
+    ap.add_argument("output", nargs="?")
+    ap.add_argument("--open", action="store_true", help="open the page in the default browser")
+    args = ap.parse_args()
+    src = Path(args.reading)
+    out = Path(args.output).expanduser() if args.output else default_out()
     data = json.loads(src.read_text(encoding="utf-8"))
     errors, warns = [], []
 
@@ -124,13 +146,23 @@ def main():
         sys.exit(1)
 
     blob = json.dumps(data, ensure_ascii=False, indent=1).replace("</", "<\\/")
-    html = TEMPLATE.read_text(encoding="utf-8")
+    template = next((t for t in TEMPLATE_CANDIDATES if t.is_file()), None)
+    if template is None:
+        print(f"error: {TEMPLATE_NAME} not found; keep it in assets/ next to scripts/, or in the same folder as this script")
+        sys.exit(1)
+    html = template.read_text(encoding="utf-8")
     if PLACEHOLDER not in html:
         print("error: template placeholder missing")
         sys.exit(1)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html.replace(PLACEHOLDER, blob), encoding="utf-8")
-    print(f"ok: {out} ({out.stat().st_size / 1e6:.2f} MB)")
+    print(f"ok: {out.resolve()} ({out.stat().st_size / 1e6:.2f} MB)")
+    if args.open:
+        try:
+            opened = webbrowser.open(out.resolve().as_uri())
+        except Exception:
+            opened = False
+        print("opened in browser" if opened else "could not open a browser; open the file above by hand")
 
 
 if __name__ == "__main__":
