@@ -80,6 +80,9 @@ def main():
     data = json.loads(src.read_text(encoding="utf-8"))
     errors, warns = [], []
 
+    if data.get("lang", "en") not in ("en", "zh"):
+        errors.append(f"lang must be \"en\" or \"zh\", got {data.get('lang')!r}")
+
     kind = data.get("spread")
     if kind not in SPREADS:
         errors.append(f"spread must be one of {list(SPREADS)}, got {kind!r}")

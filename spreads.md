@@ -2,6 +2,8 @@
 
 Card order from the draw command is position order: left to right, then top to bottom. The reading table page uses the same order, so the JSON `cards` array is the draw output as printed.
 
+The layouts carry labels in English and Chinese. In chat, keep only the labels in the reading's language (English by default).
+
 ## 3-card line
 
 ```

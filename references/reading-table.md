@@ -10,7 +10,7 @@ The template embeds the Green Glyphs Lenormand faces, the Misty design system to
 2. Write the reading JSON (schema below) to the working file for your host, listed in SKILL.md under "Where you are running" (Claude.ai: `/home/claude/reading.json`; ChatGPT: `/mnt/data/reading.json`; elsewhere: any writable folder). Write every text field in both languages.
 3. Render: `python3 <skill-dir>/scripts/render_reading.py <working file> [output.html] [--open]`. It validates the JSON and writes the page. Without an output path it picks the host default: `/mnt/user-data/outputs/lenormand-table.html` on Claude.ai, `/mnt/data/lenormand-table.html` on ChatGPT, otherwise `lenormand-witch/lenormand-table.html` inside the system temp folder. It prints the full path it wrote. `--open` opens the page in the default browser on a local machine. Fix every `error:` line and rerun; read every `warning:` line and fix it unless it is intended.
 4. Deliver the page.
-   - **Any host with an Artifact tool** (Claude.ai, the Claude apps, Claude Code sessions that have one): action `publish`, `file_path` set to the page the script wrote, `title` "雷诺曼牌阵", and the icon (`favicon` 🌘, or `icon` `moon` where the tool takes a word).
+   - **Any host with an Artifact tool** (Claude.ai, the Claude apps, Claude Code sessions that have one): action `publish`, `file_path` set to the page the script wrote, `title` "Lenormand Reading" ("雷诺曼牌阵" for a reading in Chinese), and the icon (`favicon` 🌘, or `icon` `moon` where the tool takes a word).
      - The querent wants one page updated for every reading. Pass the page's link as `url` to update it in place. The current page: `https://claude.ai/artifact/AzDvT8r2HU1CR9VontCdUT`.
      - When updating, omit `capabilities` so the stored declaration carries forward.
      - If the update is refused (the link is not the querent's, or the page no longer exists), publish without `url` and with `capabilities: {"downloads": true}`, then tell the querent the new link once.
@@ -24,42 +24,44 @@ A follow-up drill-down on cards already on the table is answered in chat. Re-ren
 
 ## Schema
 
-Every text field takes either a string (shown in both languages) or `{"zh": "...", "en": "..."}`. Always write both.
+Every text field takes either a string (shown in both languages) or `{"en": "...", "zh": "..."}`. Always write both.
 
 ```json
 {
+  "lang": "en",
   "spread": "line3 | line5 | square9 | gt",
-  "question": {"zh": "总体状况", "en": "General outlook"},
+  "question": {"en": "General outlook", "zh": "总体状况"},
   "date": "YYYY-MM-DD",
   "significator": 28,
   "positions": null,
-  "cards": [{"id": 32, "note": {"zh": "...", "en": "..."}}],
-  "pairs": {"0-1": {"zh": "...", "en": "..."}},
-  "reading": [{"label": {"zh": "过去", "en": "Past"}, "fortune": "中吉", "text": {"zh": "...", "en": "..."}}]
+  "cards": [{"id": 32, "note": {"en": "...", "zh": "..."}}],
+  "pairs": {"0-1": {"en": "...", "zh": "..."}},
+  "reading": [{"label": {"en": "Past", "zh": "过去"}, "fortune": "chukichi", "text": {"en": "...", "zh": "..."}}]
 }
 ```
 
+- `lang`: the language the page opens in, `"en"` (the default) or `"zh"`. Use `"zh"` when the reading is in Chinese. Viewers can switch with the toggle, and a viewer's saved choice wins.
 - `spread`: 3, 5, 9 or 36 cards. `cards` length must match.
 - `question`: the question as settled after reshaping. Empty means general outlook.
 - `date`: the date of the draw.
 - `significator`: gt only; the card id chosen as significator (28 Man, 29 Woman, 24 Heart, 25 Ring, 13 Child), or null.
-- `positions`: optional label overrides; leave null to use the defaults (line3: 情境 行动 结果; line5: 远因 近因 核心 近期 走向; square9: rows 过去 现在 未来, center 核心; gt: row and column plus house).
-- `cards[i].note`: the reading of that card in that position, one to three sentences. This is what the focused view shows under "本位解读 / In this position".
+- `positions`: optional label overrides; leave null to use the defaults (line3: Situation, Action, Outcome; line5: Distant cause, Recent cause, Core, Near future, Direction; square9: rows Past, Present, Future, center Core; gt: row and column plus house). The page shows each default in the viewer's language.
+- `cards[i].note`: the reading of that card in that position, one to three sentences. This is what the focused view shows under "In this position / 本位解读".
 - `pairs`: keys are `a-b` with 0-based positions and a < b, for positions that touch orthogonally. Lines: each neighbor. square9: the 12 edges. gt: write pairs for the significator's neighbors and any pair the reading leans on; the page falls back to a keyword line for the rest. Read the pair in position order: the earlier card is the subject, the later card modifies it.
 - `reading`: the full reading in sections, in the order the method uses (see below). A blank line inside `text` starts a new paragraph.
 - `fortune`: optional per section; see grading.
 
 ### Card chips
 
-Inside any text, write `{{id}}` (for example `{{23}}`) wherever a card is named. The page renders a chip with the card thumbnail, the localized name and the playing card insert (老鼠 7♣ / Mice 7♣). Clicking a chip opens that card's focused view. Use a chip for every mention of a card that is on the table, including in notes and pairs. Do not also write the card name next to the token.
+Inside any text, write `{{id}}` (for example `{{23}}`) wherever a card is named. The page renders a chip with the card thumbnail, the localized name and the playing card insert (Mice 7♣ / 老鼠 7♣). Clicking a chip opens that card's focused view. Use a chip for every mention of a card that is on the table, including in notes and pairs. Do not also write the card name next to the token.
 
 In English, write the article outside the token when grammar needs one: `The {{23}} sit in the core.`
 
 ## Sections per spread
 
-- line3 and line5: one section per position or a single "位置 / Positions" section, then "组合 / Pairs" if a pair needs more than the pair text, then "综合 / Synthesis".
-- square9: 过去 / Past, 现在 / Present, 未来 / Future (rows), 中列 / Middle column, then 综合 / Synthesis. Add 对角 / Diagonals only when they change the answer.
-- gt: the five passes from SKILL.md, one section each: 宫位 / Houses, 指示牌 / Significator, 四角与对角 / Corners and diagonals, 镜像 / Mirrors, 综合 / Synthesis.
+- line3 and line5: one section per position or a single "Positions / 位置" section, then "Pairs / 组合" if a pair needs more than the pair text, then "Synthesis / 综合".
+- square9: Past / 过去, Present / 现在, Future / 未来 (rows), Middle column / 中列, then Synthesis / 综合. Add Diagonals / 对角 only when they change the answer.
+- gt: the five passes from SKILL.md, one section each: Houses / 宫位, Significator / 指示牌, Corners and diagonals / 四角与对角, Mirrors / 镜像, Synthesis / 综合.
 
 The synthesis section states the answer to the question. The crisis or sensitive-topic sentence from SKILL.md, when it applies, goes at the end of the synthesis text.
 
@@ -81,7 +83,7 @@ Grade the reading honestly. A section with Coffin at its center does not become 
 
 ## Writing
 
-The page text follows the Voice section of SKILL.md in both languages. Chinese text follows the querent's writing rules: written register, no dashes, no contrastive negation ("不是X，而是Y"), no adjectives or adverbs, two-character verbs. English text is a faithful translation of the Chinese: the same sentences, the same order and the same verdict. It uses "hon" where the Chinese uses 亲爱的求问者.
+The page text follows the Voice section of SKILL.md in both languages. Write the English first; it is the page's default. The Chinese is a faithful translation of the English: the same sentences, the same order and the same verdict. It uses 亲爱的求问者 where the English uses "hon", and it follows these writing rules: written register, no dashes, no contrastive negation ("不是X，而是Y"), no adjectives or adverbs, two-character verbs. When the reading is in Chinese, write the Chinese first and translate it into English the same way.
 
 ## Example
 

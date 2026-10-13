@@ -45,7 +45,7 @@ This skill runs in several hosts. Tell which one you are in from the tools and p
 
 ## Core rules
 
-**Language.** Match the language the querent writes in, per message. Chinese in, everything out is Chinese — questions, layout labels, interpretation. English in, English out. If they switch, switch. Card names may be given bilingually the first time each card appears (e.g. 棺材 Coffin) so the querent can cross-reference.
+**Language.** English is the default. Questions, layout labels, the interpretation and the reading page are in English unless the querent writes in another language or asks for one; then use that language, per message, and switch back when they do. A photo with no text, a bare command, or a message whose language is unclear gets English. When the reading is in Chinese, card names may be given bilingually the first time each card appears (e.g. 棺材 Coffin) so the querent can cross-reference.
 
 **Mechanics.**
 
@@ -181,7 +181,7 @@ Answer drill-downs from the cards already on the table, in chat. Draw new cards 
 
 Follow `references/reading-table.md`:
 
-1. Write the reading JSON to your host's working file (**Where you are running**): both zh and en for every text field, `{{id}}` chips for every card mentioned, a `fortune` grade for each section.
+1. Write the reading JSON to your host's working file (**Where you are running**): both en and zh for every text field, `{{id}}` chips for every card mentioned, a `fortune` grade for each section, and `lang` set to the conversation's language (`"en"` unless the reading is in Chinese).
 2. Run `python3 <skill-dir>/scripts/render_reading.py <working file>`. Fix every error and rerun. The script picks the host's page output and prints the full path it wrote; on a local machine add `--open` to open the page in the browser.
 3. Deliver the page the way your host does. On Claude.ai, publish it with the Artifact tool, updating the querent's existing page by its link (listed in the reference); publish a new page only when the update is refused. In ChatGPT, give a download link to the file. In a coding agent, give the full path. A personal agent sends the file.
 4. Reply in chat with the ASCII layout, the synthesis paragraph and the page link or path.

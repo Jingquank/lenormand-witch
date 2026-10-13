@@ -165,7 +165,7 @@ After **"Draw three cards for me."** the witch runs a short Python command, show
 
 **A consistent voice.** Composed, written register. Short sentences. Honest about Coffin, Scythe, Mice and the rest; when heavy news lands she gets quieter, not louder. Dry humor only when the table is actually absurd. Detailed Do/Don't examples in English and Chinese live in `SKILL.md`.
 
-**Bilingual.** Replies match the querent's language per message (Chinese in, Chinese out; English in, English out). The reading page carries both languages and a toggle.
+**English by default, bilingual on request.** Replies are in English unless you write in another language; then the witch answers in yours. The reading page opens in English (or in Chinese for a Chinese reading) and carries both languages with a toggle.
 
 **Photo readings.** Send a photo of cards on a table and the photo *is* the reading: the agent identifies cards and layout (cropping and zooming wide shots if needed) and interprets them without re-dealing.
 
@@ -175,7 +175,7 @@ After **"Draw three cards for me."** the witch runs a short Python command, show
 
 - open any card for a focused view (meaning, position reading, reading of each adjacent pair)
 - click inline card chips in the text
-- switch between Chinese and English
+- switch between English and Chinese
 - switch between light and dark mode
 - export the whole reading as a PNG
 
@@ -334,28 +334,30 @@ The script injects the JSON into the template's `__READING_DATA__` placeholder, 
 
 ```json
 {
+  "lang": "en",
   "spread": "line3",
-  "question": {"zh": "…", "en": "My new job"},
+  "question": {"en": "My new job", "zh": "…"},
   "date": "2026-10-13",
   "significator": null,
   "positions": null,
   "cards": [
-    {"id": 14, "note": {"zh": "…", "en": "…"}},
-    {"id": 35, "note": {"zh": "…", "en": "…"}},
-    {"id": 31, "note": {"zh": "…", "en": "…"}}
+    {"id": 14, "note": {"en": "…", "zh": "…"}},
+    {"id": 35, "note": {"en": "…", "zh": "…"}},
+    {"id": 31, "note": {"en": "…", "zh": "…"}}
   ],
   "pairs": {
-    "0-1": {"zh": "…", "en": "…"},
-    "1-2": {"zh": "…", "en": "…"}
+    "0-1": {"en": "…", "zh": "…"},
+    "1-2": {"en": "…", "zh": "…"}
   },
   "reading": [
-    {"label": {"zh": "…", "en": "Synthesis"}, "fortune": "shokichi",
-     "text": {"zh": "{{14}}……", "en": "The {{14}} …"}}
+    {"label": {"en": "Synthesis", "zh": "…"}, "fortune": "shokichi",
+     "text": {"en": "The {{14}} …", "zh": "{{14}}……"}}
   ]
 }
 ```
 
-- Every text field is a string or `{"zh": …, "en": …}`; write both.
+- `lang` is the language the page opens in: `"en"` (default) or `"zh"`.
+- Every text field is a string or `{"en": …, "zh": …}`; write both.
 - `{{id}}` inside text renders as a clickable card chip (thumbnail, localized name, playing-card insert). Don't also write the card name next to it.
 - `pairs` keys are 0-based adjacent positions; the earlier card is the subject, the later one modifies it.
 - `positions` overrides the default labels (line3: Situation, Action, Outcome; line5: Distant cause, Recent cause, Core, Near future, Direction; square9: past / present / future rows with a core; GT: row, column and house).
