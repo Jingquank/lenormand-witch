@@ -1,0 +1,46 @@
+# Builds lenormand-witch.zip and attaches it to a GitHub Release.
+# Runs when a release is published, or by hand (Actions → Release zip → Run workflow) for an existing tag.
+name: Release zip
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to attach the zip to (for example v1.1.0)
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - name: Check out the tagged commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG }}
+          path: lenormand-witch
+
+      - name: Build the zip
+        run: |
+          zip -qr lenormand-witch.zip lenormand-witch \
+            -x 'lenormand-witch/.git/*' 'lenormand-witch/.github/*' \
+               'lenormand-witch/.claude-plugin/*' 'lenormand-witch/README.md'
+          unzip -l lenormand-witch.zip
+
+      - name: Check the zip
+        run: |
+          unzip -q lenormand-witch.zip -d check
+          test -f check/lenormand-witch/SKILL.md
+          python3 check/lenormand-witch/scripts/render_reading.py \
+            check/lenormand-witch/assets/example-square9.json check/page.html
+
+      - name: Attach the zip to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" lenormand-witch.zip --clobber --repo "$GITHUB_REPOSITORY"

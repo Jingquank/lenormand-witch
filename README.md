@@ -51,6 +51,7 @@ An agent skill that performs **Lenormand cartomancy readings** in the voice of a
   - [Other agents](#other-agents)
   - [Check that it works](#check-that-it-works)
   - [Updating](#updating)
+  - [Publishing a new zip](#publishing-a-new-zip)
 - [Usage examples](#usage-examples)
 - [File structure](#file-structure)
 - [The render script](#the-render-script)
@@ -364,10 +365,23 @@ If the agent names cards without running anything, the skill didn't load. Restar
 | Codex `$skill-installer` | Delete `~/.codex/skills/lenormand-witch`, then run the install prompt again |
 | A prompt (Grok Bot, Muse, Dots) | Send the same prompt again and ask the agent to replace the old copy |
 
-To build the zip yourself (for example after editing the skill), run this from the folder above the repository:
+### Publishing a new zip
+
+The zip on the [Releases](https://github.com/Jingquank/lenormand-witch/releases) page is built by GitHub Actions (`.github/workflows/release-zip.yml`). To ship a new version:
+
+1. Merge your changes into `main`.
+2. On GitHub, open **Releases** → **Draft a new release**.
+3. Create a new tag (for example `v1.1.0`) on `main`, add a title and notes, and click **Publish release**.
+4. The **Release zip** workflow builds `lenormand-witch.zip`, checks that it unpacks and renders the example reading, and attaches it to the release. It takes about a minute; progress shows under **Actions**.
+
+The download link at the top of this README always points to the newest release, so it serves the new zip as soon as the workflow finishes.
+
+To rebuild the zip of an existing release, open **Actions** → **Release zip** → **Run workflow** and enter its tag. The workflow replaces the old file.
+
+To build the zip by hand, run this from the folder above the repository:
 
 ```bash
-zip -r lenormand-witch.zip lenormand-witch -x 'lenormand-witch/.git/*' 'lenormand-witch/.claude-plugin/*' 'lenormand-witch/README.md'
+zip -r lenormand-witch.zip lenormand-witch -x 'lenormand-witch/.git/*' 'lenormand-witch/.github/*' 'lenormand-witch/.claude-plugin/*' 'lenormand-witch/README.md'
 ```
 
 ---
@@ -443,6 +457,8 @@ A plain answer from `cards.md`; no spread built around it.
 lenormand-witch/
 ├── .claude-plugin/
 │   └── marketplace.json              # Lets Claude Code install the folder as a plugin
+├── .github/workflows/
+│   └── release-zip.yml               # Builds lenormand-witch.zip for each published release
 ├── SKILL.md                          # The skill: persona, rules, per-host paths and delivery,
 │                                     #   question shaping, workflow (draw → lay out →
 │                                     #   interpret → render), Grand Tableau summary,
