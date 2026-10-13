@@ -28,14 +28,122 @@ An agent skill that performs **Lenormand cartomancy readings** in the voice of a
 
 ## Contents
 
-- [Features](#features)
 - [Install](#install)
+- [Features](#features)
 - [Usage examples](#usage-examples)
 - [File structure](#file-structure)
 - [The render script](#the-render-script)
 - [Reading JSON at a glance](#reading-json-at-a-glance)
 - [Notes and limitations](#notes-and-limitations)
 - [Publishing a new version](#publishing-a-new-version)
+
+---
+
+## Install
+
+Click your app to open its steps.
+
+<details>
+<summary><b>Grok Bot · Muse · Dots</b>: paste one prompt</summary>
+
+**1.** Copy this and send it in the chat:
+
+```text
+Install the Lenormand Witch skill from https://github.com/Jingquank/lenormand-witch
+
+Download the whole repository and save it in your skill library as "lenormand-witch". Keep every file and folder; the skill needs all of them.
+Use this skill whenever I ask for a Lenormand reading or ask you to draw cards, and remember it for future conversations.
+When you're done, list the files you saved.
+```
+
+**2.** Say: **"Draw three cards for me."**
+
+If your agent can't download files, open [SKILL.md](https://raw.githubusercontent.com/Jingquank/lenormand-witch/main/SKILL.md), copy all of it into the chat, and add: *"Use this skill whenever I ask for a Lenormand reading, and remember it for future conversations."*
+
+</details>
+
+<details>
+<summary><b>Claude.ai · ChatGPT</b>: download a zip and upload it</summary>
+
+**1.** Download **[lenormand-witch.zip](https://github.com/Jingquank/lenormand-witch/releases/latest/download/lenormand-witch.zip)**. Keep it zipped.
+
+**2.** Upload it.
+
+- **Claude.ai** (and the Claude desktop app)
+  1. **Settings → Capabilities**: turn on **Code execution and file creation**.
+  2. **Customize → Skills → + → Upload a skill**: choose the zip.
+- **ChatGPT**
+  1. Sidebar → **Skills** (in some workspaces: **Plugins → Skills**).
+  2. **+ → Upload from your computer**: choose the zip.
+
+**3.** Open a new chat and say: **"Draw three cards for me."**
+
+<details>
+<summary>No Skills page in ChatGPT? Make a custom GPT instead.</summary>
+
+1. Download the [repository zip](https://github.com/Jingquank/lenormand-witch/archive/refs/heads/main.zip) and unzip it.
+2. ChatGPT → **GPTs → Create → Configure**.
+3. **Instructions:** paste this.
+
+   ```text
+   You are the Lenormand witch defined in SKILL.md, one of your knowledge files.
+   Before your first reply, read SKILL.md, cards.md and spreads.md from /mnt/data with Python, then follow SKILL.md exactly.
+   All skill files sit flat in /mnt/data. Treat /mnt/data as <skill-dir>.
+   Draw cards only with the Python command in SKILL.md Step 2. Never invent cards.
+   Build the reading page with: python3 /mnt/data/render_reading.py /mnt/data/reading.json
+   Then give the user a download link to /mnt/data/lenormand-table.html.
+   ```
+
+4. **Knowledge:** upload `SKILL.md`, `cards.md`, `spreads.md`, `references/reading-table.md`, `assets/example-square9.json`, `assets/reading-table.template.html`, `scripts/render_reading.py`.
+5. **Capabilities:** turn on **Code Interpreter & Data Analysis**, then click **Create**.
+
+</details>
+
+</details>
+
+<details>
+<summary><b>Claude Code · Codex · Cursor</b>: paste one prompt</summary>
+
+**1.** Copy this and send it in the chat:
+
+```text
+Install the agent skill from https://github.com/Jingquank/lenormand-witch
+
+Clone it into your skills folder as "lenormand-witch", so SKILL.md sits directly inside:
+  Claude Code:  ~/.claude/skills/lenormand-witch
+  Codex:        ~/.agents/skills/lenormand-witch
+  Cursor:       ~/.cursor/skills/lenormand-witch
+  Other agents: your own skills folder
+Then check that python3 (or python) runs, and tell me if I need to restart you.
+```
+
+**2.** Restart the app (or open a new chat) and say: **"Draw three cards for me."**
+
+<details>
+<summary>Prefer the terminal?</summary>
+
+```bash
+# Claude Code
+git clone https://github.com/Jingquank/lenormand-witch.git ~/.claude/skills/lenormand-witch
+
+# Codex
+git clone https://github.com/Jingquank/lenormand-witch.git ~/.agents/skills/lenormand-witch
+
+# Cursor
+git clone https://github.com/Jingquank/lenormand-witch.git ~/.cursor/skills/lenormand-witch
+```
+
+In Claude Code you can also run `/plugin install lenormand-witch --marketplace Jingquank/lenormand-witch`.
+
+</details>
+
+</details>
+
+### Did it work?
+
+After **"Draw three cards for me."** the witch runs a short Python command, shows three cards and gives you the reading page. If she names cards without running anything, the skill didn't load: restart the app and try again.
+
+**Updating:** send the same prompt again (or upload the new zip) and ask to replace the old copy.
 
 ---
 
@@ -72,105 +180,6 @@ An agent skill that performs **Lenormand cartomancy readings** in the voice of a
 - export the whole reading as a PNG
 
 Each section of the reading carries an honest **fortune grade** on the seven-step omikuji scale: great blessing · middle blessing · small blessing · blessing · future blessing · curse · great curse.
-
----
-
-## Install
-
-Find your app below and follow its steps.
-
-### Grok Bot · Muse · Dots
-
-**1.** Copy this and send it in the chat:
-
-```text
-Install the Lenormand Witch skill from https://github.com/Jingquank/lenormand-witch
-
-Download the whole repository and save it in your skill library as "lenormand-witch". Keep every file and folder; the skill needs all of them.
-Use this skill whenever I ask for a Lenormand reading or ask you to draw cards, and remember it for future conversations.
-When you're done, list the files you saved.
-```
-
-**2.** Say: **"Draw three cards for me."**
-
-If your agent can't download files, open [SKILL.md](https://raw.githubusercontent.com/Jingquank/lenormand-witch/main/SKILL.md), copy all of it into the chat, and add: *"Use this skill whenever I ask for a Lenormand reading, and remember it for future conversations."*
-
-### Claude.ai · ChatGPT
-
-**1.** Download **[lenormand-witch.zip](https://github.com/Jingquank/lenormand-witch/releases/latest/download/lenormand-witch.zip)**. Keep it zipped.
-
-**2.** Upload it.
-
-- **Claude.ai** (and the Claude desktop app)
-  1. **Settings → Capabilities**: turn on **Code execution and file creation**.
-  2. **Customize → Skills → + → Upload a skill**: choose the zip.
-- **ChatGPT**
-  1. Sidebar → **Skills** (in some workspaces: **Plugins → Skills**).
-  2. **+ → Upload from your computer**: choose the zip.
-
-**3.** Open a new chat and say: **"Draw three cards for me."**
-
-<details>
-<summary>No Skills page in ChatGPT? Make a custom GPT instead.</summary>
-
-1. Download the [repository zip](https://github.com/Jingquank/lenormand-witch/archive/refs/heads/main.zip) and unzip it.
-2. ChatGPT → **GPTs → Create → Configure**.
-3. **Instructions:** paste this.
-
-   ```text
-   You are the Lenormand witch defined in SKILL.md, one of your knowledge files.
-   Before your first reply, read SKILL.md, cards.md and spreads.md from /mnt/data with Python, then follow SKILL.md exactly.
-   All skill files sit flat in /mnt/data. Treat /mnt/data as <skill-dir>.
-   Draw cards only with the Python command in SKILL.md Step 2. Never invent cards.
-   Build the reading page with: python3 /mnt/data/render_reading.py /mnt/data/reading.json
-   Then give the user a download link to /mnt/data/lenormand-table.html.
-   ```
-
-4. **Knowledge:** upload `SKILL.md`, `cards.md`, `spreads.md`, `references/reading-table.md`, `assets/example-square9.json`, `assets/reading-table.template.html`, `scripts/render_reading.py`.
-5. **Capabilities:** turn on **Code Interpreter & Data Analysis**, then click **Create**.
-
-</details>
-
-### Claude Code · Codex · Cursor
-
-**1.** Copy this and send it in the chat:
-
-```text
-Install the agent skill from https://github.com/Jingquank/lenormand-witch
-
-Clone it into your skills folder as "lenormand-witch", so SKILL.md sits directly inside:
-  Claude Code:  ~/.claude/skills/lenormand-witch
-  Codex:        ~/.agents/skills/lenormand-witch
-  Cursor:       ~/.cursor/skills/lenormand-witch
-  Other agents: your own skills folder
-Then check that python3 (or python) runs, and tell me if I need to restart you.
-```
-
-**2.** Restart the app (or open a new chat) and say: **"Draw three cards for me."**
-
-<details>
-<summary>Prefer the terminal?</summary>
-
-```bash
-# Claude Code
-git clone https://github.com/Jingquank/lenormand-witch.git ~/.claude/skills/lenormand-witch
-
-# Codex
-git clone https://github.com/Jingquank/lenormand-witch.git ~/.agents/skills/lenormand-witch
-
-# Cursor
-git clone https://github.com/Jingquank/lenormand-witch.git ~/.cursor/skills/lenormand-witch
-```
-
-In Claude Code you can also run `/plugin install lenormand-witch --marketplace Jingquank/lenormand-witch`.
-
-</details>
-
-### Did it work?
-
-After **"Draw three cards for me."** the witch runs a short Python command, shows three cards and gives you the reading page. If she names cards without running anything, the skill didn't load: restart the app and try again.
-
-**Updating:** send the same prompt again (or upload the new zip) and ask to replace the old copy.
 
 ---
 
